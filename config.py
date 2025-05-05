@@ -1,7 +1,5 @@
-import os
-
-BASE_DIR = os.path.abspath(os.path.dirname(__file__))
+# config.py
 
 class Config:
-    SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(BASE_DIR, 'instance', 'trades.db')
+    SQLALCHEMY_DATABASE_URI = 'sqlite:///trades.db'
     SQLALCHEMY_TRACK_MODIFICATIONS = False
