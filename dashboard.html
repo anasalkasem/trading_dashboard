@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>الصفقات الأخيرة</title>
+    <style>
+        body { font-family: Arial; background-color: #f4f4f4; padding: 20px; }
+        table { width: 100%; border-collapse: collapse; background: white; }
+        th, td { padding: 10px; border: 1px solid #ddd; text-align: center; }
+        th { background-color: #222; color: white; }
+        .latest { background-color: #d9edf7; font-weight: bold; }
+        .btn-danger { background-color: red; color: white; padding: 10px; border: none; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <h2 style="text-align:center;">الصفقات الأخيرة</h2>
+    {% if last_trade %}
+    <div style="text-align:center; margin-bottom:10px;">
+        <strong>آخر صفقة:</strong> {{ last_trade.symbol }} | {{ last_trade.action }} | {{ last_trade.price }} | {{ last_trade.timestamp }}
+    </div>
+    {% endif %}
+    <form action="{{ url_for('delete_all_trades') }}" method="post" style="text-align:center;">
+        <button class="btn-danger">حذف جميع الصفقات</button>
+    </form>
+    <table>
+        <tr>
+            <th>الرمز</th>
+            <th>الإجراء</th>
+            <th>السعر</th>
+            <th>الوقت</th>
+            <th>الأسباب</th>
+        </tr>
+        {% for trade in trades.items %}
+        <tr {% if trade.id == last_trade.id %}class="latest"{% endif %}>
+            <td>{{ trade.symbol }}</td>
+            <td>{{ trade.action }}</td>
+            <td>{{ trade.price }}</td>
+            <td>{{ trade.timestamp }}</td>
+            <td>{{ trade.reasons }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    <div style="text-align:center; margin-top:10px;">
+        {% if trades.has_prev %}
+            <a href="{{ url_for('dashboard', page=trades.prev_num) }}">السابق</a>
+        {% endif %}
+        |
+        {% if trades.has_next %}
+            <a href="{{ url_for('dashboard', page=trades.next_num) }}">التالي</a>
+        {% endif %}
+    </div>
+</body>
+</html>
