@@ -1,0 +1,18 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>لوحة التداول</title>
+</head>
+<body>
+    <h1>آخر الصفقات</h1>
+    <ul>
+    {% for trade in trades.items %}
+        <li>{{ trade.symbol }} - {{ trade.action }} - ${{ trade.price }} - {{ trade.timestamp }}</li>
+    {% endfor %}
+    </ul>
+    <form action="/delete_all" method="POST">
+        <button type="submit">حذف كل الصفقات</button>
+    </form>
+</body>
+</html>
