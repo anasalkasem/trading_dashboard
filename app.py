@@ -1,7 +1,9 @@
+# app.py
+
 from flask import Flask, render_template, request, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 
-app = Flask(__name__)
+app = Flask(__name__, instance_relative_config=True)
 app.config.from_object('config.Config')
 
 db = SQLAlchemy(app)
@@ -15,6 +17,7 @@ class Trade(db.Model):
     timestamp = db.Column(db.String(50))
     reasons = db.Column(db.String(200))
 
+# الصفحة الرئيسية
 @app.route('/')
 def dashboard():
     page = request.args.get('page', 1, type=int)
