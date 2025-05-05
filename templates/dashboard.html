@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="utf-8">
+    <title>لوحة التداول الذكية</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light text-center p-4">
+<div class="container">
+    <h1 class="mb-4 text-primary">الصفقات الأخيرة</h1>
+
+    {% if last_trade %}
+        <div class="alert alert-info">
+            <strong>آخر صفقة:</strong>
+            {{ last_trade.symbol }} | {{ last_trade.action }} | {{ last_trade.price }} | {{ last_trade.timestamp }}
+        </div>
+    {% endif %}
+
+    <table class="table table-bordered table-striped table-hover bg-white">
+        <thead class="table-dark">
+            <tr>
+                <th>الرمز</th>
+                <th>الإجراء</th>
+                <th>السعر</th>
+                <th>الوقت</th>
+                <th>الأسباب</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for trade in trades.items %}
+                <tr>
+                    <td>{{ trade.symbol }}</td>
+                    <td>{{ trade.action }}</td>
+                    <td>{{ trade.price }}</td>
+                    <td>{{ trade.timestamp }}</td>
+                    <td>{{ trade.reasons }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <form action="/delete_all" method="POST">
+        <button class="btn btn-danger mt-3">🧼 حذف جميع الصفقات</button>
+    </form>
+
+    <nav class="mt-4">
+        <ul class="pagination justify-content-center">
+            {% if trades.has_prev %}
+                <li class="page-item"><a class="page-link" href="/?page={{ trades.prev_num }}">السابق</a></li>
+            {% endif %}
+            <li class="page-item disabled"><span class="page-link">صفحة {{ trades.page }} من {{ trades.pages }}</span></li>
+            {% if trades.has_next %}
+                <li class="page-item"><a class="page-link" href="/?page={{ trades.next_num }}">التالي</a></li>
+            {% endif %}
+        </ul>
+    </nav>
+</div>
+</body>
+</html>
