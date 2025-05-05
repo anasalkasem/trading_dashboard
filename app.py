@@ -6,6 +6,7 @@ app.config.from_object('config.Config')
 
 db = SQLAlchemy(app)
 
+# نموذج الصفقة
 class Trade(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     symbol = db.Column(db.String(20))
